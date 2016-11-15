@@ -73,3 +73,4 @@ var vd = module.exports ={
     errors:Array(),
     isValid:true
 }
+exports.formValidate = vd;

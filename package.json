@@ -1,0 +1,31 @@
+{
+  "name": "formValidate",
+  "version": "1.0.1",
+  "description": "A simple bootsrap and jquery form validation library",
+  "main": "validator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tawazz/bootstrap-form-validator-module.git"
+  },
+  "keywords": [
+    "form",
+    "validator",
+    "bs",
+    "bootstrap",
+    "validation",
+    "jquery"
+  ],
+  "author": "tawanda nyakudjga",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/tawazz/bootstrap-form-validator-module/issues"
+  },
+  "homepage": "https://github.com/tawazz/bootstrap-form-validator-module#readme",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.1.1"
+  }
+}
