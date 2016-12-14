@@ -1,6 +1,6 @@
 {
   "name": "formValidate",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple bootsrap and jquery form validation library",
   "main": "validator.js",
   "scripts": {
