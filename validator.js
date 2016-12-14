@@ -1,24 +1,24 @@
 /*
-* Name : Vue Validator
-* Author : Tawanda Nyakudjga
-* Date : November 2016
-* Description : A bootsrap and jquery form validation library
-**/
+ * Name : Vue Validator
+ * Author : Tawanda Nyakudjga
+ * Date : November 2016
+ * Description : A bootsrap and jquery form validation library
+ **/
 
 var $ = require('jquery');
 
-var vd = module.exports ={
+var vd = module.exports = {
     addError: (field) => {
         $(field).closest('.form-group').addClass('has-error');
         $(field).focus();
         $(field).select();
     },
 
-    removeError:(field) => {
+    removeError: (field) => {
         $(field).closest('.form-group').removeClass('has-error');
     },
 
-    isNotEmpty:(field) => {
+    isNotEmpty: (field) => {
         var inputStr = $(field).val();
         $(field).closest('.form-group').removeClass('has-error');
         if (inputStr == "" || inputStr == null) {
@@ -29,7 +29,7 @@ var vd = module.exports ={
         return true;
 
     },
-    isNumber:(field) => {
+    isNumber: (field) => {
         if (isNotEmpty(field)) {
             var inputStr = field.value;
             vd.removeError(field);
@@ -51,26 +51,29 @@ var vd = module.exports ={
         return false;
     },
 
-    validate:(form) => {
+    validate: (form) => {
+        vd.errors = [];
+        vd.isValid = true;
         var fields = $(form).find(':input');
         $.each(fields, function(i, field) {
-            if ($(field).attr('required')=='required' || $(field).attr('required')=='true') {
+            $(field).tooltip("destroy");
+            if ($(field).attr('required') == 'required' || $(field).attr('required') == 'true') {
                 if (!vd.isNotEmpty(field)) {
-
-                    vd.isValid =false;
+                    vd.isValid = false;
+                    $(field).tooltip()
+                        .attr("data-original-title", "field is required")
                 }
             }
 
             if ($(field).attr('number')) {
                 if (!vd.isNumber(field)) {
-
-                    vd.isValid =false;
+                    vd.isValid = false;
                 }
             }
         });
         return vd;
     },
-    errors:Array(),
-    isValid:true
+    errors: Array(),
+    isValid: true
 }
 exports.formValidate = vd;
