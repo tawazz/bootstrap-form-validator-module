@@ -5,25 +5,35 @@
  * Description : A bootsrap and jquery form validation library
  **/
 
-var $ = require('jquery');
+if (!window.$) {
+    var $ = require('jquery');
+} else {
+    var $ = window.$;
+}
+
 
 var vd = module.exports = {
-    addError: (field) => {
+    addError: (field, errMsg) => {
         $(field).closest('.form-group').addClass('has-error');
         $(field).focus();
         $(field).select();
+        $(field).addClass('tooltip-err');
+        $(field).tooltip()
+            .attr("data-original-title", errMsg)
+        vd.errors.push(errMsg);
     },
 
     removeError: (field) => {
+        $(field).removeClass('tooltip-err');
         $(field).closest('.form-group').removeClass('has-error');
     },
 
     isNotEmpty: (field) => {
         var inputStr = $(field).val();
-        $(field).closest('.form-group').removeClass('has-error');
+        vd.removeError(field);
         if (inputStr == "" || inputStr == null) {
-            vd.addError(field);
-            vd.errors.push("required field");
+            var errMsg = $(field).attr('data-error-msg') ? $(field).attr('data-error-msg') : "Field is required";
+            vd.addError(field, errMsg);
             return false;
         }
         return true;
@@ -36,14 +46,16 @@ var vd = module.exports = {
             for (var i = 0; i < inputStr.length; i++) {
                 var oneChar = inputStr.substring(i, i + 1);
                 if (oneChar < "0" || oneChar > "9") {
-                    vd.addError(field);
-                    vd.errors.push("a number is required");
+                    var errMsg = $(field).attr('data-error-msg') ? $(field).attr('data-error-msg') : "Field is not a number";
+                    vd.addError(field, errMsg);
+                    vd.errors.push(errMsg);
                     return false;
                 }
             }
             if (field.value.length < 9) {
-                vd.addError(field);
-                vd.errors.push("a number is required");
+                var errMsg = $(field).attr('data-error-msg') ? $(field).attr('data-error-msg') : "Field is not a number";
+                vd.addError(field, errMsg);
+                vd.errors.push(errMsg);
                 return false;
             }
             return true;
@@ -54,17 +66,14 @@ var vd = module.exports = {
     validate: (form) => {
         vd.errors = [];
         vd.isValid = true;
+        $('.tooltip-err').tooltip("destroy");
         var fields = $(form).find(':input');
         $.each(fields, function(i, field) {
-            $(field).tooltip("destroy");
             if ($(field).attr('required') == 'required' || $(field).attr('required') == 'true') {
                 if (!vd.isNotEmpty(field)) {
                     vd.isValid = false;
-                    $(field).tooltip()
-                        .attr("data-original-title", "field is required")
                 }
             }
-
             if ($(field).attr('number')) {
                 if (!vd.isNumber(field)) {
                     vd.isValid = false;
